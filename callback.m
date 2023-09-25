@@ -20,51 +20,92 @@ function callback(var1, var2, var3)
     
         ylimit = get(axes, 'YLim');
     
+    if (size(ylimit, 1) > 1) %多个子图
+    
         for i = 1:1:size(ylimit, 1)
     
-            length =  ylimit{i, 1}(2) -  ylimit{i, 1}(1);
-           
+            length = ylimit{i, 1}(2) - ylimit{i, 1}(1);
+    
             if strcmp(var2.Key, 'w')
                 length = 2 * length;
             elseif strcmp(var2.Key, 's')
                 length = 0.5 * length;
             end
     
-            limit_center = (ylimit{i, 1}(2) +  ylimit{i, 1}(1))/2;
+            limit_center = (ylimit{i, 1}(2) + ylimit{i, 1}(1)) / 2;
     
-            ylimit{i, 1}(1) = limit_center - length/2;
-            ylimit{i, 1}(2) = limit_center + length/2;
+            ylimit{i, 1}(1) = limit_center - length / 2;
+            ylimit{i, 1}(2) = limit_center + length / 2;
     
             set(axes(i), 'YLim', ylimit{i, 1})
     
         end
+    
+    elseif (size(ylimit, 1) == 1) %一个子图
+    
+        length = ylimit(2) - ylimit(1);
+    
+        if strcmp(var2.Key, 'w')
+            length = 2 * length;
+        elseif strcmp(var2.Key, 's')
+            length = 0.5 * length;
+        end
+    
+        limit_center = (ylimit(2) + ylimit(1)) / 2;
+    
+        ylimit(1) = limit_center - length / 2;
+        ylimit(2) = limit_center + length / 2;
+    
+        set(axes, 'YLim', ylimit)
+    
+    end
     
     end
     
     %!#endregion
     
     %!#region 对X轴缩放
-    
     if (strcmp(var2.Key, 'd') || strcmp(var2.Key, 'a'))
     
         xlimit = get(axes, 'XLim');
     
-        for i = 1:1:size(xlimit, 1)
+        if (size(xlimit, 1) > 1) %多个子图
     
-            length =  xlimit{i, 1}(2) -  xlimit{i, 1}(1);
-           
+            for i = 1:1:size(xlimit, 1)
+    
+                length = xlimit{i, 1}(2) - xlimit{i, 1}(1);
+    
+                if strcmp(var2.Key, 'd')
+                    length = 2 * length;
+                elseif strcmp(var2.Key, 'a')
+                    length = 0.5 * length;
+                end
+    
+                limit_center = (xlimit{i, 1}(2) + xlimit{i, 1}(1)) / 2;
+    
+                xlimit{i, 1}(1) = limit_center - length / 2;
+                xlimit{i, 1}(2) = limit_center + length / 2;
+    
+                set(axes(i), 'XLim', xlimit{i, 1})
+    
+            end
+    
+        elseif (size(xlimit, 1) == 1) %一个子图
+    
+            length = xlimit(2) - xlimit(1);
+    
             if strcmp(var2.Key, 'd')
                 length = 2 * length;
             elseif strcmp(var2.Key, 'a')
                 length = 0.5 * length;
             end
     
-            limit_center = (xlimit{i, 1}(2) +  xlimit{i, 1}(1))/2;
+            limit_center = (xlimit(2) + xlimit(1)) / 2;
     
-            xlimit{i, 1}(1) = limit_center - length/2;
-            xlimit{i, 1}(2) = limit_center + length/2;
+            xlimit(1) = limit_center - length / 2;
+            xlimit(2) = limit_center + length / 2;
     
-            set(axes(i), 'XLim', xlimit{i, 1})
+            set(axes, 'XLim', xlimit)
     
         end
     
