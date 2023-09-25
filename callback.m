@@ -18,27 +18,22 @@ function callback(var1, var2, var3)
     %!#region 对Y轴缩放
     if (strcmp(var2.Key, 'w') || strcmp(var2.Key, 's'))
     
-        if strcmp(var2.Key, 'w')
-            scale = 2;
-        elseif strcmp(var2.Key, 's')
-            scale = 0.5;
-        end
-    
         ylimit = get(axes, 'YLim');
     
         for i = 1:1:size(ylimit, 1)
     
-            if ylimit{i, 1}(1) < 0
-                ylimit{i, 1}(1) = ylimit{i, 1}(1) * scale;
-            else
-                ylimit{i, 1}(1) = ylimit{i, 1}(1) / scale;
+            length =  ylimit{i, 1}(2) -  ylimit{i, 1}(1);
+           
+            if strcmp(var2.Key, 'w')
+                length = 2 * length;
+            elseif strcmp(var2.Key, 's')
+                length = 0.5 * length;
             end
     
-            if ylimit{i, 1}(2) < 0
-                ylimit{i, 1}(2) = ylimit{i, 1}(2) / scale;
-            else
-                ylimit{i, 1}(2) = ylimit{i, 1}(2) * scale;
-            end
+            limit_center = (ylimit{i, 1}(2) +  ylimit{i, 1}(1))/2;
+    
+            ylimit{i, 1}(1) = limit_center - length/2;
+            ylimit{i, 1}(2) = limit_center + length/2;
     
             set(axes(i), 'YLim', ylimit{i, 1})
     
@@ -52,34 +47,28 @@ function callback(var1, var2, var3)
     
     if (strcmp(var2.Key, 'd') || strcmp(var2.Key, 'a'))
     
-        if strcmp(var2.Key, 'd')
-            scale = 2;
-        elseif strcmp(var2.Key, 'a')
-            scale = 0.5;
-        end
+        xlimit = get(axes, 'XLim');
     
-        Xlimit = get(axes, 'XLim');
+        for i = 1:1:size(xlimit, 1)
     
-        for i = 1:1:size(Xlimit, 1)
-    
-            if Xlimit{i, 1}(1) < 0
-                Xlimit{i, 1}(1) = Xlimit{i, 1}(1) * scale;
-            else
-                Xlimit{i, 1}(1) = Xlimit{i, 1}(1) / scale;
+            length =  xlimit{i, 1}(2) -  xlimit{i, 1}(1);
+           
+            if strcmp(var2.Key, 'd')
+                length = 2 * length;
+            elseif strcmp(var2.Key, 'a')
+                length = 0.5 * length;
             end
     
-            if Xlimit{i, 1}(2) < 0
-                Xlimit{i, 1}(2) = Xlimit{i, 1}(2) / scale;
-            else
-                Xlimit{i, 1}(2) = Xlimit{i, 1}(2) * scale;
-            end
+            limit_center = (xlimit{i, 1}(2) +  xlimit{i, 1}(1))/2;
     
-            set(axes(i), 'XLim', Xlimit{i, 1})
+            xlimit{i, 1}(1) = limit_center - length/2;
+            xlimit{i, 1}(2) = limit_center + length/2;
+    
+            set(axes(i), 'XLim', xlimit{i, 1})
     
         end
     
     end
-    
     %!#endregion
     
     %!#region X轴同步
